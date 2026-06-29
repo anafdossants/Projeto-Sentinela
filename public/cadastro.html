@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Usuário</title>
+</head>
+<body>
+    
+<form action="/usuarios" method="POST" enctype="multipart/form-data">
+Nome: <input type="text" name="nome" required> <br><br>
+Email: <input type="email" name="email" required> <br><br>
+Foto: <input type="file" name="foto"><br><br>
+<button type="submit">Cadrastar</button>
+</form>
+
+<hr>
+<h2>Deletar Usuário</h2>
+
+
+<form id="formDeletar">
+ID do usuário: <input type="number" id="idDeletar" required>
+<button type="submit">Deletar</button>
+</form>
+
+<script>
+    document.getElementById("formDeletar").addEventListener("submit", async function(e) {
+        e.preventDefault();
+        const id = document.getElementById("idDeletar").value;
+
+
+        await fetch(`/usuarios/deletar/${id}`, {
+            method: "POST"
+        });
+
+        alert("Usuário deletado!");
+    });
+</script>
+<br>
+<a href="index.html"></a>
+</body>
+</html>
