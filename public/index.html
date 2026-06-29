@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Hospital</title>
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+
+    /* AZUL ESCURO LIMPO */
+    background: linear-gradient(135deg, #74a0d9, #5c7c9a);
+
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #e2e8f0;
+}
+
+.container {
+    background: #202124;
+    padding: 30px;
+    border-radius: 12px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(43, 50, 73, 0.6);
+}
+
+.logo {
+    width: 80px;
+    margin-bottom: 15px;
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: #60a5fa; /* azul ajustado */
+    letter-spacing: 1px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 6px;
+    background: #1f2937;
+    color: #e5e7eb;
+    outline: none;
+}
+
+input::placeholder {
+    color: #9ca3af;
+}
+
+input:focus {
+    border: 1px solid #60a5fa;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 6px;
+    background: #1d4ed8; /* azul mais forte */
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #1e40af;
+}
+
+.error {
+    display: none;
+    color: #f87171;
+    font-size: 14px;
+    margin-top: 5px;
+}
+</style>
+
+
+</head>
+
+<body>
+
+    <div class="container">
+        <img src="83423966-hospital-logo-and-symbols.jpg" alt="Logo do hospital" class="logo">
+
+        <h2>Bem-vindo</h2>
+
+        <input type="text" id="usuario" placeholder="Usuário">
+        <input type="password" id="senha" placeholder="Senha">
+
+        <p class="error" id="erro">Preencha todos os campos!</p>
+
+        <button onclick="entrar()">Entrar</button>
+    </div>
+
+    <script>
+        function entrar() {
+            let usuario = document.getElementById("usuario").value;
+            let senha = document.getElementById("senha").value;
+            let erro = document.getElementById("erro");
+
+            if (usuario === "admin" && senha === "1234") {
+                erro.style.display = "none";
+                alert("Login realizado com sucesso!");
+            } else {
+                erro.style.display = "block";
+                erro.innerText = "Usuário ou senha incorretos!";
+            }
+        }
+    </script>
+
+</body>
+</html>
