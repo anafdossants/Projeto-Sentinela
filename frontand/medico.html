@@ -1,1 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Médico</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
 
+<body>
+
+<div class="container">
+    <h2>Painel Médico</h2>
+
+    <div id="triagens"></div>
+
+    <hr>
+
+    <h3>Consulta</h3>
+
+    <input id="paciente" placeholder="Paciente" readonly>
+    <input id="diagnostico" placeholder="Diagnóstico">
+    <input id="medicacao" placeholder="Medicação">
+    <textarea id="obs" placeholder="Observações"></textarea>
+
+    <button onclick="salvarConsulta()">Salvar</button>
+</div>
+
+<script>
+let pacienteSelecionado = null;
+
+// ==========================
+// CARREGAR TRIAGENS
+// ==========================
+function carregarTriagens() {
+    fetch("http://localhost:3000/triagens")
+        .then(r => r.json())
+        .then(data => {
+            const div = document.getElementById("triagens");
+            div.innerHTML = "";
+
+            data.forEach(t => {
+                div.innerHTML += `
+                    <div class="card">
+                        <h3>${t.nome ?? "Sem nome"}</h3>
+
+                        <p><b>Sintoma:</b> ${t.sintoma ?? t.sintomas ?? "Não informado"}</p>
+                        <p><b>Temperatura:</b> ${t.temperatura ?? t.temp ?? "-"} °C</p>
+
+                        <p>
+                            <b>Risco:</b>
+                            <span class="${t.risco}">${t.risco ?? "indefinido"}</span>
+                        </p>
+
+                        <p><b>Alergia:</b> ${t.alergia ?? "Nenhuma"}</p>
+                        <p><b>Observação:</b> ${t.observacao ?? "Nenhuma"}</p>
+
+                        <button onclick="selecionarPaciente('${t.nome}', '${t.alergia || "Nenhuma"}')">
+                            Atender
+                        </button>
+                    </div>
+                `;
+            });
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Erro ao carregar triagens");
+        });
+}
+
+// ==========================
+// SELECIONAR PACIENTE
+// ==========================
+function selecionarPaciente(nome, alergia) {
+    pacienteSelecionado = nome;
+
+    document.getElementById("paciente").value = nome;
+
+    if (alergia && alergia !== "Nenhuma") {
+        alert("⚠ Paciente possui alergia: " + alergia);
+    }
+}
+
+// ==========================
+// SALVAR CONSULTA
+// ==========================
+function salvarConsulta() {
+    if (!pacienteSelecionado) {
+        alert("Selecione um paciente primeiro");
+        return;
+    }
+
+    fetch("http://localhost:3000/consulta", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            paciente: pacienteSelecionado,
+            diagnostico: document.getElementById("diagnostico").value,
+            medicacao: document.getElementById("medicacao").value,
+            observacao: document.getElementById("obs").value
+        })
+    })
+    .then(r => {
+        if (!r.ok) throw new Error("Erro ao salvar consulta");
+        return r.json();
+    })
+    .then(() => {
+        alert("Consulta salva com sucesso!");
+        
+        document.getElementById("diagnostico").value = "";
+        document.getElementById("medicacao").value = "";
+        document.getElementById("obs").value = "";
+    })
+    .catch(err => {
+        console.error(err);
+        alert("Erro ao salvar consulta");
+    });
+}
+
+// iniciar
+carregarTriagens();
+
+</script>
+
+</body>
+</html>
