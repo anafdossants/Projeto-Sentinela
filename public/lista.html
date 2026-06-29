@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuários Cadastrados</title>
+</head>
+<body>
+    
+<h1>Lista de Usuários</h1>
+
+<table border="1">
+
+    <thead>
+        <tr>
+
+<tr>ID</tr>
+<tr>Nome</tr>
+<tr>Email</tr>
+<tr>Foto</tr>
+        </tr>
+    </thead>
+    <tbody id="tabelaUsuarios"></tbody>
+</table>
+
+
+<script>
+
+async function carregarUsuarios() {
+    const resposta = await fetch("/usuarios");
+    const usuarios = await resposta.json();
+
+
+    const tabela = document.getElementById("tabelaUsuarios");
+    tabela.innerHTML = "";
+
+
+    usuarios.forEach(usuario => {
+        tabela.innerHTML += `
+        <tr>
+            <td>${usuario.id}</td>
+             <td>${usuario.nome}</td>
+              <td>${usuario.email}</td>
+            </td>
+            ${usuario.foto ? `<img src="/uploads/${usuario.foto}
+            " width="60">` : "Sem foto"}
+            </td>
+            </tr>
+        `;
+    });
+}
+
+carregarUsuarios();
+</script>
+<br>
+<a href="cadastro.html">Ir para Cadrastro</a>
+</body>
+</html>
