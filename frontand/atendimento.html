@@ -18,13 +18,6 @@
     <option>Particular</option>
 </select>
 
-<input type="file" id="foto">
-
-
-<button onclick="cadastrar()">Cadastrar</button>
-</div>
-
-<script>
     function cadastrar(){
         fetch("http://localhost:3000/atendimento", {
             method: "POST",
@@ -35,10 +28,28 @@
                 tipo: tipo.value
             })
         });
+<input type="file" id="foto">
+
+
+<button onclick="cadastrar()">Cadastrar</button>
+</div>
+
+<script>
 
         alert("Paciente enviado para triagem")
     }
 </script>
 
+
+
+
+
+
+
+
+
+
+
+    
 </body>
 </html>
